@@ -27,6 +27,12 @@ devtools::install_github("chrisbrownlie/cbShinyDemo")
 cbShinyDemo::run_app()
 ```
 
+## Code structure
+
+The project and app itself follow the naming and structure conventions
+outlined in the ‘Structure’ tab of the app. Namely, the app is
+structured as a package and heavily relies on shiny modules.
+
 ## Caveats
 
 I do not claim that the methods used here are the best way to solve a

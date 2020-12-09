@@ -9,7 +9,8 @@ structure_ui <- function(id) {
 
   tagList(
     fluidRow(
-      h3("Structuring a Shiny app", style = "font-size:40px;text-align:center"),
+      h2("Structuring a Shiny app",
+         class = "page-title"),
       column(
         width = 12,
         box(
@@ -144,7 +145,42 @@ structure_ui <- function(id) {
         box(
           width = NULL,
           status = "warning",
-          h3("Naming conventions")
+          h3("Naming conventions"),
+          p("The project structure above uses the naming conventions suggested by thinkR (the creators of the golem package). For more
+            information, see the relevant section of their book",
+            a("Engineering Shiny.", href = "https://engineering-shiny.org/structure.html#conventions-matter")),
+          p("The basic premise is that the app is compartmentalised using the concept of",
+            a("shiny modules.", href = "https://shiny.rstudio.com/articles/modules.html"), "See the bottom of this page for an alternative
+            explanation of modules."),
+          p("In most apps, you will have a selection of pages or tabs. It is good practice to put each of these into their own module. As
+            well as the benefits outlined at the bottom of the page, this will give you a larger number of short, manageable scripts, which
+            are far easier to debug and to keep track of. This will also help to separate out the logic of the app to avoid unrelated elements
+            becoming entangled."),
+          p("The aforementioned file naming convention can be described as follows:"),
+          tags$ul(
+            tags$li("All R files (except ui/server/global) start with one of the following:",
+                    tags$ul(
+                      tags$li(strong("mod"), "- indicating that they are part of a specific module (either the definition of the module itself
+                              or functions that are only used within the module)"),
+                      tags$li(strong("fct"), "- meaning they contain important 'business logic' functions that are used either outside of modules
+                              or across many modules"),
+                      tags$li(strong("utils"), "- meaning they contain helper functions which do not contain any business logic (and can be
+                              used anywhere in the app.")
+                    )),
+            tags$li(strong("For mod files,"), "the 'mod' is followed by a number denoting the order of the module in the app (in terms of the logical
+                    progression from page/tab 1 to page/tab n) and this is followed by the name of the module which is usually just the name of the
+                    tab/page it represents. If there are modules or functions within a module, the same convention is just repeated, e.g. if the first
+                    module of the app is named mod_01_homepage.R and it has a module within it called 'login', the name of the file containing that module
+                    should be mod_01_homepage_mod_login.R"),
+            tags$li(strong("For fct files,"), "they are followed by a single word or phrase to describe what the functions are used for. As with modules,
+                    they can be appended onto an existing module to signify that the functions are only used within that module. E.g. you might have
+                    mod_03_importData_fct_sqlConn.R, for a set of functions that help you connect to a SQL database and are used in the third tab of
+                    the app (which is called 'import data'). Alternatively if they are used in multiple modules you can either append them to the first
+                    module they appear in, or keep them separate (e.g. just 'fct_sqlConn.R')"),
+            tags$li(strong("For utils files,"), "these follow the same naming structure as fct files - they are followed by a single word or phrase to describe
+                    what the functions achieve, with the key difference being that they don't contain 'business logic' and are just helper functions. For many
+                    apps it may be enough to just have a single utils.R file.")
+          )
         )
       )
     ),
@@ -156,7 +192,23 @@ structure_ui <- function(id) {
         box(
           width = NULL,
           status = "success",
-          h3("Modules")
+          h3("Modules"),
+          p("A module can be thought of as a mini app-function. Using modules you can define a pair of functions, which return a module UI and a module Server
+            respectively. When you call the functions, you assign an ID which you pass to both. This ID uniquely identifies a single call of a particular module.
+            This is also how the two elements of the module communicate with each other. This is done by using a namespace function ns()."),
+          p("The premise of the namespace function is very simple but also extremely effective. Instead of creating an input with an inputId of 'test', for example,
+            you would wrap the inputId in ns(). The namespace function then prefixes whatever it is passed with the namespace from which the input is placed - that
+            is, the ID of the module from which it is called."),
+          p("For example, imagine you have a module in your app, which you call with id 'module1'. Within this module you have a selectInput, where you have set
+            the id to ns('selection1'), using the ns() function to ensure the ID is namespaced. What the ns() function does in this case, is return
+            'module1-selection1'."),
+          p("The beauty of this simple function is that you can now call the same module 100 times, supplying a different module ID each time and you will not have
+            any conflicts in names - imagine if instead of one button and text, you had 20, 30 or 100 inputs and outputs. The inputs will automatically be named e.g.
+            'module2-selection1', 'module3-selection1'. This is one of the main benefits that modules were introduced for."),
+          p("The code below shows a simple app with modules. Although this is a trivial example, hopefully it demonstrates how useful modules can be for situations
+            where you have repeated elements in your app that you need to keep separate. This app can be viewed if you have downloaded the cbShinyDemo package, by
+            running run_moduleDemo()."),
+          verbatimTextOutput(ns("example_app_with_module"))
         )
       )
     )
@@ -177,6 +229,15 @@ structure_server <- function(id) {
     function(input,
              output,
              session) {
+
+
+      output$example_app_with_module <- renderPrint({
+
+        example_app <- readLines(system.file("moduleDemo", "app.R", package = "cbShinyDemo"))
+
+        cat(example_app, sep = "\n")
+
+      })
 
 
     }

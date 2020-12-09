@@ -1,30 +1,30 @@
-#' Other tab UI
+#' Javascript tab UI
 #'
 #' @import shiny
 #' @import shinydashboard
 #'
 #' @export
-other_ui <- function(id) {
+javascript_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
     fluidRow(
       column(
         width = 6,
-        box("This tab is about other shiny techniques")
+        box("Javascript topics: shinyjs, simple custom functions, advanced custom functions")
       )
     )
   )
 
 }
 
-#' Other tab server
+#' Javascript tab server
 #'
 #' @import shiny
 #' @import shinydashboard
 #'
 #' @export
-other_server <- function(id) {
+javascript_server <- function(id) {
 
   moduleServer(
     id,

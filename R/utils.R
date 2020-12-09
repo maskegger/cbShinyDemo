@@ -1,4 +1,4 @@
-#' Show project structure as tree
+#' Show example project structure as tree
 #'
 #' Use the data.tree package to show an example
 #' file structure for shiny app package

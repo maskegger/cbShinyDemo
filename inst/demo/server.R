@@ -1,7 +1,17 @@
 server <- function(input, output, session) {
 
-  structure_server("main")
+  intro_server("intro")
 
-  other_server("main")
+  structure_server("structure")
+
+  interface_server("interface")
+
+  testing_server("testing")
+
+  javascript_server("javascript")
+
+  datatables_server("datatables")
+
+  other_server("other")
 
 }
