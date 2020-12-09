@@ -1,14 +1,13 @@
 Package: cbShinyDemo
-Title: Demoing Intermediate Shiny Techniques
-Version: 0.0.1
+Title: Intermediate Shiny Techniques
+Version: 0.0.2
 Authors@R: 
     person(given = "Chris",
            family = "Brownlie",
            role = c("aut", "cre"),
            email = "chris.brownlie@hotmail.co.uk")
 Description: Package to showcase intermediate R Shiny techniques such as structuring
-  an app as a package, using modules, using custom javascript and css etc. To be used
-  in a DfE Coffee & Coding session.
+  an app as a package, using modules, using custom javascript and css etc.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
